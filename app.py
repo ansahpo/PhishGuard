@@ -112,18 +112,18 @@ def history():
     )
 
 
-@app.route('/delete/<int:pred_id>')
-def delete(pred_id):
-    delete_prediction(pred_id)
-    flash('Record deleted successfully', 'success')
-    return redirect(url_for('history'))
+# @app.route('/delete/<int:pred_id>')
+# def delete(pred_id):
+#     delete_prediction(pred_id)
+#     flash('Record deleted successfully', 'success')
+#     return redirect(url_for('history'))
 
 
-@app.route('/clear-history')
-def clear_history():
-    clear_all_predictions()
-    flash('All history cleared', 'success')
-    return redirect(url_for('history'))
+# @app.route('/clear-history')
+# def clear_history():
+#     clear_all_predictions()
+#     flash('All history cleared', 'success')
+#     return redirect(url_for('history'))
 
 
 if __name__ == '__main__':
