@@ -1,5 +1,6 @@
 import os
 import sys
+from urllib.parse import urlparse
 
 # Suppress logs before any imports
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -33,22 +34,42 @@ predictor = EnsemblePredictor({
     'Random Forest': 'models/random_forest_model.joblib',
     'Decision tree': 'models/decision_tree_model.joblib',
 })
-# predictor = EnsemblePredictor({
-#     'CNN': {
-#         'path': 'models/best_cnn_model.keras',
-#         'type': 'keras',
-#     },
-#     'Random Forest': {
-#         'path': 'models/random_forest_model.joblib',
-#         'type': 'joblib',
-#     },
-#     'Decision Tree': {
-#         'path': 'models/decision_tree_model.joblib',
-#         'type': 'joblib',
-#     },
-# })
 print("✅ Ready!\n")
 
+def is_valid_url(url):
+    """Validate URL format and scheme"""
+    # Must start with http:// or https://
+    if not url.startswith(('http://', 'https://')):
+        return False, "URL must start with http:// or https://"
+    
+    try:
+        parsed = urlparse(url)
+        
+        # Must have a valid scheme
+        if parsed.scheme not in ('http', 'https'):
+            return False, "URL must start with http:// or https://"
+        
+        # Must have a domain
+        if not parsed.netloc:
+            return False, "URL must contain a valid domain (e.g. https://example.com)"
+        
+        # Domain must have at least one dot
+        if '.' not in parsed.netloc:
+            return False, "URL must contain a valid domain (e.g. https://example.com)"
+        
+        # Basic domain pattern check
+        domain_pattern = re.compile(
+            r'^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$'
+        )
+        # Strip port if present
+        netloc = parsed.netloc.split(':')[0]
+        if not domain_pattern.match(netloc):
+            return False, "URL contains an invalid domain"
+        
+        return True, None
+    
+    except Exception:
+        return False, "Invalid URL format. URL must start with https:// or http://"
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -60,6 +81,16 @@ def index():
 
         if not url:
             error = "Please enter a valid URL"
+        
+        if not url.startswith(('http://', 'https://')):
+            url = 'https://' + url
+
+            # ── Validate URL ──
+            is_valid, validation_error = is_valid_url(url)
+
+            if not is_valid:
+                error = validation_error
+                
         else:
             try:
                 features = extract_all_training_features(url)
@@ -86,7 +117,7 @@ def index():
                         save_prediction(url, predictions)
 
             except Exception as e:
-                error = f"Prediction error: {str(e)}"
+                error = f"Prediction error: Please check URL format"
 
     stats = get_prediction_stats()
     return render_template('index.html', result=result, error=error, stats=stats)
