@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}History - PhishGuard{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <!-- Header -->
+    <div class="history-header">
+        <h1>📋 Prediction History</h1>
+        <div class="history-actions">
+            {% if history %}
+            <a href="{{ url_for('clear_history') }}" class="btn-clear"
+               onclick="return confirm('Are you sure you want to clear all history?')">
+                🗑️ Clear All
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Stats -->
+    {% if stats.total > 0 %}
+    <div class="stats-bar">
+        <div class="stat">
+            <span class="stat-number">{{ stats.total }}</span>
+            <span class="stat-label">Total Scans</span>
+        </div>
+        <div class="stat">
+            <span class="stat-number phishing-text">{{ stats.phishing }}</span>
+            <span class="stat-label">Phishing ({{ stats.phishing_pct }}%)</span>
+        </div>
+        <div class="stat">
+            <span class="stat-number legit-text">{{ stats.legitimate }}</span>
+            <span class="stat-label">Legitimate ({{ stats.legitimate_pct }}%)</span>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Search -->
+    <div class="search-bar">
+        <form method="GET" action="{{ url_for('history') }}">
+            <div class="input-group search-group">
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search URLs..."
+                    value="{{ search_query }}"
+                    autocomplete="off"
+                >
+                <button type="submit">Search</button>
+            </div>
+        </form>
+        {% if search_query %}
+        <a href="{{ url_for('history') }}" class="clear-search">✕ Clear search</a>
+        {% endif %}
+    </div>
+
+    <!-- Results Count -->
+    {% if search_query %}
+    <p class="search-info">
+        Found {{ history|length }} result(s) for "<strong>{{ search_query }}</strong>"
+    </p>
+    {% endif %}
+
+    <!-- Table -->
+    {% if history %}
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Timestamp</th>
+                    <th>URL</th>
+                    <th>CNN</th>
+                    <th>Random Forest</th>
+                    <th>Decision Tree</th>
+                    <th>Final Verdict</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in history %}
+                <tr>
+                    <td>{{ record.id }}</td>
+                    <td class="timestamp">{{ record.timestamp }}</td>
+                    <td class="url-cell" title="{{ record.url }}">
+                        {{ record.url[:50] }}{% if record.url|length > 50 %}...{% endif %}
+                    </td>
+                    <td class="pred-cell">
+                        {% if record.cnn is not none %}
+                        <span class="badge {{ 'badge-phishing' if record.cnn == 1 else 'badge-legit' }}">
+                            {{ '🔴' if record.cnn == 1 else '🟢' }}
+                        </span>
+                        {% else %}
+                        <span class="badge badge-na">N/A</span>
+                        {% endif %}
+                    </td>
+                    <td class="pred-cell">
+                        {% if record.random_forest is not none %}
+                        <span class="badge {{ 'badge-phishing' if record.random_forest == 1 else 'badge-legit' }}">
+                            {{ '🔴' if record.random_forest == 1 else '🟢' }}
+                        </span>
+                        {% else %}
+                        <span class="badge badge-na">N/A</span>
+                        {% endif %}
+                    </td>
+                    <td class="pred-cell">
+                        {% if record.decision_tree is not none %}
+                        <span class="badge {{ 'badge-phishing' if record.decision_tree == 1 else 'badge-legit' }}">
+                            {{ '🔴' if record.decision_tree == 1 else '🟢' }}
+                        </span>
+                        {% else %}
+                        <span class="badge badge-na">N/A</span>
+                        {% endif %}
+                    </td>
+                    <td class="pred-cell">
+                        <span class="badge verdict-badge {{ 'badge-phishing' if record.final_verdict == 1 else 'badge-legit' }}">
+                            {{ '🚨 Phishing' if record.final_verdict == 1 else '✅ Legit' }}
+                        </span>
+                    </td>
+                    <td class="action-cell">
+                        <a href="{{ url_for('delete', pred_id=record.id) }}"
+                           class="btn-delete"
+                           onclick="return confirm('Delete this record?')"
+                           title="Delete">
+                            🗑️
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <h3>{% if search_query %}No results found{% else %}No predictions yet{% endif %}</h3>
+        <p>
+            {% if search_query %}
+                Try a different search term or
+                <a href="{{ url_for('history') }}">view all records</a>
+            {% else %}
+                Go to <a href="{{ url_for('index') }}">Scan URL</a> to start detecting phishing URLs
+            {% endif %}
+        </p>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

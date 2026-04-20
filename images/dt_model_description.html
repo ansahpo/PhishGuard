@@ -1,0 +1,314 @@
+
+<style>
+
+.tab_block .header {
+    flex-direction: row;
+    display: flex;
+}
+
+.tab_block .header .tab {
+    cursor: pointer;
+    background-color: #F6F5F5;
+    text-decoration: none;
+    text-align: center;
+    padding: 4px 12px;
+    color: black;
+}
+
+.tab_block .header .tab.selected {
+    border-bottom: 2px solid #2F80ED;
+}
+
+.tab_block .header .tab:hover {
+    text-decoration: none;
+    background-color: #DCDCDC;
+}
+
+.tab_block .body .tab_content {
+    display: none;
+    padding: 5px;
+}
+
+.tab_block .body .tab_content.selected {
+    display: block;
+}
+
+.ydf_pre {
+    font-size: medium;
+}
+
+
+
+.variable_importance {
+}
+
+.variable_importance select {
+}
+
+.variable_importance .content {
+  display: none;
+}
+
+.variable_importance .content.selected {
+  display: block;
+}
+
+.ydf_tuning_table {
+  border-collapse: collapse;
+  border: 1px solid lightgray;
+}
+
+.ydf_tuning_table th {
+  background-color: #ededed;
+  font-weight: bold;
+  text-align: left;
+  padding: 3px 4px;
+  border: 1px solid lightgray;
+}
+
+.ydf_tuning_table td {
+  text-align: right;
+  padding: 3px 4px;
+  border: 1px solid lightgray;
+}
+
+.ydf_tuning_table .best {
+  background-color: khaki;
+}
+
+</style>
+
+<script>
+
+function ydfShowTab(block_id, item) {
+    const block = document.getElementById(block_id);
+    
+    
+    console.log("HIDE first of:",block.getElementsByClassName("tab selected"));
+    console.log("HIDE first of:",block.getElementsByClassName("tab_content selected"));
+    
+    block.getElementsByClassName("tab selected")[0].classList.remove("selected");
+    block.getElementsByClassName("tab_content selected")[0].classList.remove("selected");
+    document.getElementById(block_id + "_" + item).classList.add("selected");
+    document.getElementById(block_id + "_body_" + item).classList.add("selected");
+}
+  
+
+function ydfShowVariableImportance(block_id) {
+    const block = document.getElementById(block_id);
+    const item = block.getElementsByTagName("select")[0].value;
+    block.getElementsByClassName("content selected")[0].classList.remove("selected");
+    document.getElementById(block_id + "_body_" + item).classList.add("selected");
+}
+
+</script>
+  <div class="tab_block" id="b0cf-0530-8174-b31e"><div class="header"><a id="b0cf-0530-8174-b31e_model" class="tab selected" onclick="ydfShowTab('b0cf-0530-8174-b31e', 'model')">Model</a><a id="b0cf-0530-8174-b31e_dataspec" class="tab" onclick="ydfShowTab('b0cf-0530-8174-b31e', 'dataspec')">Dataspec</a><a id="b0cf-0530-8174-b31e_training" class="tab" onclick="ydfShowTab('b0cf-0530-8174-b31e', 'training')">Training</a><a id="b0cf-0530-8174-b31e_variable_importance" class="tab" onclick="ydfShowTab('b0cf-0530-8174-b31e', 'variable_importance')">Variable importances</a><a id="b0cf-0530-8174-b31e_structure" class="tab" onclick="ydfShowTab('b0cf-0530-8174-b31e', 'structure')">Structure</a></div><div class="body"><div id="b0cf-0530-8174-b31e_body_model" class="tab_content selected"><b>Name</b> : RANDOM_FOREST<br><b>Task</b> : CLASSIFICATION<br><b>Label</b> : label<br><b>Features (46)</b> : whois_success domain_age_days creation_year url_length domain_length hostname_length path_length tld_length query_length num_digits num_letters num_uppercase num_lowercase num_subdomains num_dots num_hyphen num_at num_percent num_question num_equal num_hash num_ampersand num_underscore num_dollars num_slashes num_params entropy_url entropy_path entropy_domain entropy_query ratio_digits ratio_letters ratio_ uppercase ratio_lowercase contains_verify contains_secure contains_update contains_bank contains_crypto contains_pay contains_obfuscation is_ip_address uses_https has_www unusual_double_slash is_shortened<br><b>Weights</b> : None<br><b>Trained with tuner</b> : No<br><b>Model size</b> : 21 kB<br></div><div id="b0cf-0530-8174-b31e_body_dataspec" class="tab_content"><pre class="ydf_pre">Number of records: 384000
+Number of columns: 47
+
+Number of columns by type:
+	NUMERICAL: 46 (97.8723%)
+	CATEGORICAL: 1 (2.12766%)
+
+Columns:
+
+NUMERICAL: 46 (97.8723%)
+	1: &quot;whois_success&quot; NUMERICAL mean:0.923964 min:0 max:1 sd:0.265056 dtype:DTYPE_INT64
+	2: &quot;domain_age_days&quot; NUMERICAL mean:4168.87 min:0 max:15092 sd:3901.26 dtype:DTYPE_INT64
+	3: &quot;creation_year&quot; NUMERICAL mean:1508.78 min:0 max:2025 sd:869.827 dtype:DTYPE_INT64
+	4: &quot;url_length&quot; NUMERICAL mean:52.4974 min:12 max:25523 sd:80.5965 dtype:DTYPE_INT64
+	5: &quot;domain_length&quot; NUMERICAL mean:12.6863 min:4 max:71 sd:4.62845 dtype:DTYPE_INT64
+	6: &quot;hostname_length&quot; NUMERICAL mean:19.3928 min:4 max:236 sd:11.8792 dtype:DTYPE_INT64
+	7: &quot;path_length&quot; NUMERICAL mean:18.9383 min:0 max:2864 sd:32.541 dtype:DTYPE_INT64
+	8: &quot;tld_length&quot; NUMERICAL mean:3.01104 min:0 max:16 sd:1.07987 dtype:DTYPE_INT64
+	9: &quot;query_length&quot; NUMERICAL mean:5.88043 min:0 max:4471 sd:40.9362 dtype:DTYPE_INT64
+	10: &quot;num_digits&quot; NUMERICAL mean:3.98383 min:0 max:3413 sd:15.1121 dtype:DTYPE_INT64
+	11: &quot;num_letters&quot; NUMERICAL mean:39.6328 min:4 max:22021 sd:64.787 dtype:DTYPE_INT64
+	12: &quot;num_uppercase&quot; NUMERICAL mean:1.85679 min:0 max:10610 sd:27.8444 dtype:DTYPE_INT64
+	13: &quot;num_lowercase&quot; NUMERICAL mean:37.7607 min:4 max:11411 sd:41.6349 dtype:DTYPE_INT64
+	14: &quot;num_subdomains&quot; NUMERICAL mean:0.745714 min:0 max:42 sd:1.34176 dtype:DTYPE_INT64
+	15: &quot;num_dots&quot; NUMERICAL mean:2.1469 min:1 max:547 sd:4.73688 dtype:DTYPE_INT64
+	16: &quot;num_hyphen&quot; NUMERICAL mean:1.06952 min:0 max:65 sd:1.96632 dtype:DTYPE_INT64
+	17: &quot;num_at&quot; NUMERICAL mean:0.00809635 min:0 max:32 sd:0.117901 dtype:DTYPE_INT64
+	18: &quot;num_percent&quot; NUMERICAL mean:0.185443 min:0 max:417 sd:3.18435 dtype:DTYPE_INT64
+	19: &quot;num_question&quot; NUMERICAL mean:0.087401 min:0 max:17 sd:0.305491 dtype:DTYPE_INT64
+	20: &quot;num_equal&quot; NUMERICAL mean:0.191156 min:0 max:80 sd:0.941702 dtype:DTYPE_INT64
+	21: &quot;num_hash&quot; NUMERICAL mean:0.00721354 min:0 max:24 sd:0.0932908 dtype:DTYPE_INT64
+	22: &quot;num_ampersand&quot; NUMERICAL mean:0.0984922 min:0 max:80 sd:0.698693 dtype:DTYPE_INT64
+	23: &quot;num_underscore&quot; NUMERICAL mean:0.138297 min:0 max:99 sd:0.920982 dtype:DTYPE_INT64
+	24: &quot;num_dollars&quot; NUMERICAL mean:0.0028724 min:0 max:12 sd:0.0988453 dtype:DTYPE_INT64
+	25: &quot;num_slashes&quot; NUMERICAL mean:3.85752 min:2 max:334 sd:3.31016 dtype:DTYPE_INT64
+	26: &quot;num_params&quot; NUMERICAL mean:0.17737 min:0 max:81 sd:0.849591 dtype:DTYPE_INT64
+	27: &quot;entropy_url&quot; NUMERICAL mean:4.16879 min:0.63 max:6.03 sd:0.387615 dtype:DTYPE_FLOAT64
+	28: &quot;entropy_path&quot; NUMERICAL mean:2.51727 min:0 max:5.97 sd:1.61904 dtype:DTYPE_FLOAT64
+	29: &quot;entropy_domain&quot; NUMERICAL mean:3.14566 min:0.72 max:4.88 sd:0.377649 dtype:DTYPE_FLOAT64
+	30: &quot;entropy_query&quot; NUMERICAL mean:0.32637 min:0 max:6.02 sd:1.11346 dtype:DTYPE_FLOAT64
+	31: &quot;ratio_digits&quot; NUMERICAL mean:0.0492407 min:0 max:0.81 sd:0.0915105 dtype:DTYPE_FLOAT64
+	32: &quot;ratio_letters&quot; NUMERICAL mean:0.763472 min:0.04 max:0.96 sd:0.0913467 dtype:DTYPE_FLOAT64
+	33: &quot;ratio_ uppercase&quot; NUMERICAL mean:0.0148564 min:0 max:0.76 sd:0.0497909 dtype:DTYPE_FLOAT64
+	34: &quot;ratio_lowercase&quot; NUMERICAL mean:0.748403 min:0.02 max:0.96 sd:0.105717 dtype:DTYPE_FLOAT64
+	35: &quot;contains_verify&quot; NUMERICAL mean:0.0102474 min:0 max:1 sd:0.100709 dtype:DTYPE_INT64
+	36: &quot;contains_secure&quot; NUMERICAL mean:0.0137083 min:0 max:1 sd:0.116277 dtype:DTYPE_INT64
+	37: &quot;contains_update&quot; NUMERICAL mean:0.00583594 min:0 max:1 sd:0.0761701 dtype:DTYPE_INT64
+	38: &quot;contains_bank&quot; NUMERICAL mean:0.0620208 min:0 max:1 sd:0.241193 dtype:DTYPE_INT64
+	39: &quot;contains_crypto&quot; NUMERICAL mean:0.0185937 min:0 max:1 sd:0.135085 dtype:DTYPE_INT64
+	40: &quot;contains_pay&quot; NUMERICAL mean:0.0144844 min:0 max:1 sd:0.119476 dtype:DTYPE_INT64
+	41: &quot;contains_obfuscation&quot; NUMERICAL mean:0.000510417 min:0 max:1 sd:0.0225866 dtype:DTYPE_INT64
+	42: &quot;is_ip_address&quot; NUMERICAL mean:0.0137266 min:0 max:1 sd:0.116354 dtype:DTYPE_INT64
+	43: &quot;uses_https&quot; NUMERICAL mean:0.855927 min:0 max:1 sd:0.351164 dtype:DTYPE_INT64
+	44: &quot;has_www&quot; NUMERICAL mean:0.307711 min:0 max:1 sd:0.461546 dtype:DTYPE_INT64
+	45: &quot;unusual_double_slash&quot; NUMERICAL mean:0.00429688 min:0 max:1 sd:0.0654096 dtype:DTYPE_INT64
+	46: &quot;is_shortened&quot; NUMERICAL mean:0.0174922 min:0 max:1 sd:0.131096 dtype:DTYPE_INT64
+
+CATEGORICAL: 1 (2.12766%)
+	0: &quot;label&quot; CATEGORICAL has-dict vocab-size:3 zero-ood-items most-frequent:&quot;0&quot; 192163 (50.0424%) dtype:DTYPE_INT64
+
+Terminology:
+	nas: Number of non-available (i.e. missing) values.
+	ood: Out of dictionary.
+	manually-defined: Attribute whose type is manually defined by the user, i.e., the type was not automatically inferred.
+	tokenized: The attribute value is obtained through tokenization.
+	has-dict: The attribute is attached to a string dictionary e.g. a categorical attribute stored as a string.
+	vocab-size: Number of unique values.
+</pre></div><div id="b0cf-0530-8174-b31e_body_training" class="tab_content"><p>The following evaluation is computed on the validation or out-of-bag dataset.</p><pre class="ydf_pre">Number of predictions (without weights): 38513
+Number of predictions (with weights): 38513
+Task: CLASSIFICATION
+Label: label
+
+Accuracy: 0.900735  CI95[W][0.898193 0.903232]
+LogLoss: : 0.279214
+ErrorRate: : 0.0992652
+
+Default Accuracy: : 0.500766
+Default LogLoss: : 0.693146
+Default ErrorRate: : 0.499234
+
+Confusion Table:
+truth\prediction
+           0      1
+    0  16613   2614
+    1   1209  18077
+Total: 38513
+
+  &quot;0&quot; vs. the others
+    auc: 0.943296  CI95[H][0.940896 0.945696]
+    p/r-auc: 0.944612  CI95[L][0.941288 0.947758]
+    ap: 0.962903  
+
+  &quot;1&quot; vs. the others
+    auc: 0.943296  CI95[H][0.940899 0.945693]
+    p/r-auc: 0.945101  CI95[L][0.941796 0.948228]
+    ap: 0.96353  
+
+</pre><div style='display: grid; gap: 0px; grid-auto-columns: min-content;'><div style='grid-row:1 / span 1; grid-column:1 / span 1;'><script src='https://www.gstatic.com/external_hosted/plotly/plotly.min.js'></script>
+<div id="chart_b0cf_0530_8174_b31eself_eval_item0" style="display: inline-block;" ></div>
+<script>
+  Plotly.newPlot(
+    'chart_b0cf_0530_8174_b31eself_eval_item0',
+    [{
+x: [1],
+y: [0.900735],
+type: 'scatter',
+mode: 'lines',
+line: {
+  dash: 'solid',
+  width: 1
+},
+},
+],
+    {
+      width: 600,
+      height: 400,
+      title: '',
+      showlegend: true,
+      xaxis: {
+        ticks: 'outside',
+        showgrid: true,
+        zeroline: false,
+        showline: true,
+        title: 'num trees',
+        },
+      font: {
+        size: 10,
+        },
+      yaxis: {
+        ticks: 'outside',
+        showgrid: true,
+        zeroline: false,
+        showline: true,
+        title: 'accuracy',
+        },
+      margin: {
+        l: 50,
+        r: 50,
+        b: 50,
+        t: 50,
+      },
+    },
+    {
+      modeBarButtonsToRemove: ['sendDataToCloud'],
+      displaylogo: false,displayModeBar: false,
+    }
+  );
+</script>
+</div></div></div><div id="b0cf-0530-8174-b31e_body_variable_importance" class="tab_content"><p><a target="_blank" href="https://ydf.readthedocs.io/en/latest/cli_user_manual#variable-importances">Variable importances</a> measure the importance of an input feature for a model.</p><div id="b0cf-0530-8174-b31e_vi" class="variable_importance"><select onchange="ydfShowVariableImportance('b0cf-0530-8174-b31e_vi')"><option value="INV_MEAN_MIN_DEPTH">INV_MEAN_MIN_DEPTH</option><option value="NUM_AS_ROOT">NUM_AS_ROOT</option><option value="NUM_NODES">NUM_NODES</option><option value="SUM_SCORE">SUM_SCORE</option></select><div id="b0cf-0530-8174-b31e_vi_body_INV_MEAN_MIN_DEPTH" class="content selected"><pre class="ydf_pre">    1.         &quot;has_www&quot;  1.000000 ################
+    2.  &quot;num_subdomains&quot;  0.352941 ###
+    3.    &quot;entropy_path&quot;  0.290323 #
+    4. &quot;domain_age_days&quot;  0.264706 #
+    5. &quot;hostname_length&quot;  0.206897 
+    6.     &quot;entropy_url&quot;  0.202247 
+    7. &quot;ratio_lowercase&quot;  0.197802 
+    8.   &quot;domain_length&quot;  0.191489 
+</pre></div><div id="b0cf-0530-8174-b31e_vi_body_NUM_AS_ROOT" class="content"><pre class="ydf_pre">    1. &quot;has_www&quot;  1.000000 
+</pre></div><div id="b0cf-0530-8174-b31e_vi_body_NUM_NODES" class="content"><pre class="ydf_pre">    1. &quot;domain_age_days&quot;  5.000000 ################
+    2.  &quot;num_subdomains&quot;  4.000000 ############
+    3.     &quot;entropy_url&quot;  2.000000 ####
+    4.    &quot;entropy_path&quot;  2.000000 ####
+    5.   &quot;domain_length&quot;  1.000000 
+    6. &quot;hostname_length&quot;  1.000000 
+    7. &quot;ratio_lowercase&quot;  1.000000 
+    8.         &quot;has_www&quot;  1.000000 
+</pre></div><div id="b0cf-0530-8174-b31e_vi_body_SUM_SCORE" class="content"><pre class="ydf_pre">    1.         &quot;has_www&quot; 55861.596267 ################
+    2.  &quot;num_subdomains&quot; 40053.667559 ###########
+    3. &quot;domain_age_days&quot; 24495.950131 ######
+    4.    &quot;entropy_path&quot; 9257.263410 ##
+    5. &quot;ratio_lowercase&quot; 7111.451890 #
+    6.     &quot;entropy_url&quot; 4836.714910 #
+    7. &quot;hostname_length&quot; 3737.887988 
+    8.   &quot;domain_length&quot; 266.226282 
+</pre></div></div><p>Those variable importances are computed during training. More, and possibly more informative, variable importances are available when analyzing a model on a test dataset.</p></div><div id="b0cf-0530-8174-b31e_body_structure" class="tab_content"><b>Num trees</b> : 1<br><pre class="ydf_pre">Tree #0:
+    &quot;has_www&quot;&gt;=0.5 [s:0.161689 n:345487 np:106325 miss:0] ; val:&quot;0&quot; prob:[0.500557, 0.499443]
+        ├─(pos)─ &quot;entropy_path&quot;&gt;=1.125 [s:0.0849356 n:106325 np:99124 miss:1] ; val:&quot;0&quot; prob:[0.904463, 0.0955373]
+        |        ├─(pos)─ &quot;num_subdomains&quot;&gt;=1.5 [s:0.0384817 n:99124 np:1480 miss:0] ; val:&quot;0&quot; prob:[0.948559, 0.0514406]
+        |        |        ├─(pos)─ &quot;domain_age_days&quot;&gt;=6702.5 [s:0.104674 n:1480 np:102 miss:0] ; val:&quot;1&quot; prob:[0.0810811, 0.918919]
+        |        |        |        ├─(pos)─ val:&quot;0&quot; prob:[0.72549, 0.27451]
+        |        |        |        └─(neg)─ val:&quot;1&quot; prob:[0.0333817, 0.966618]
+        |        |        └─(neg)─ &quot;entropy_url&quot;&gt;=4.795 [s:0.0246172 n:97644 np:2627 miss:0] ; val:&quot;0&quot; prob:[0.961708, 0.0382922]
+        |        |                 ├─(pos)─ &quot;entropy_path&quot;&gt;=4.205 [s:0.0862144 n:2627 np:1359 miss:0] ; val:&quot;0&quot; prob:[0.537495, 0.462505]
+        |        |                 |        ├─(pos)─ val:&quot;1&quot; prob:[0.340692, 0.659308]
+        |        |                 |        └─(neg)─ val:&quot;0&quot; prob:[0.748423, 0.251577]
+        |        |                 └─(neg)─ val:&quot;0&quot; prob:[0.973436, 0.0265637]
+        |        └─(neg)─ &quot;domain_age_days&quot;&gt;=7214.5 [s:0.14145 n:7201 np:1029 miss:0] ; val:&quot;1&quot; prob:[0.297459, 0.702541]
+        |                 ├─(pos)─ &quot;num_subdomains&quot;&gt;=1.5 [s:0.213724 n:1029 np:77 miss:0] ; val:&quot;0&quot; prob:[0.908649, 0.0913508]
+        |                 |        ├─(pos)─ val:&quot;1&quot; prob:[0.012987, 0.987013]
+        |                 |        └─(neg)─ val:&quot;0&quot; prob:[0.981092, 0.0189076]
+        |                 └─(neg)─ &quot;num_subdomains&quot;&gt;=1.5 [s:0.0882707 n:6172 np:2035 miss:0] ; val:&quot;1&quot; prob:[0.195561, 0.804439]
+        |                          ├─(pos)─ val:&quot;1&quot; prob:[0.0004914, 0.999509]
+        |                          └─(neg)─ &quot;domain_age_days&quot;&gt;=458.5 [s:0.172534 n:4137 np:1159 miss:1] ; val:&quot;1&quot; prob:[0.291516, 0.708484]
+        |                                   ├─(pos)─ val:&quot;0&quot; prob:[0.727351, 0.272649]
+        |                                   └─(neg)─ val:&quot;1&quot; prob:[0.121894, 0.878106]
+        └─(neg)─ &quot;num_subdomains&quot;&gt;=0.5 [s:0.148328 n:239162 np:110817 miss:1] ; val:&quot;1&quot; prob:[0.320992, 0.679008]
+                 ├─(pos)─ &quot;hostname_length&quot;&gt;=23.5 [s:0.0337303 n:110817 np:62161 miss:0] ; val:&quot;1&quot; prob:[0.0633116, 0.936688]
+                 |        ├─(pos)─ &quot;domain_age_days&quot;&gt;=7578.5 [s:0.00841345 n:62161 np:2940 miss:0] ; val:&quot;1&quot; prob:[0.0100063, 0.989994]
+                 |        |        ├─(pos)─ &quot;domain_length&quot;&gt;=16.5 [s:0.0905532 n:2940 np:288 miss:0] ; val:&quot;1&quot; prob:[0.103061, 0.896939]
+                 |        |        |        ├─(pos)─ val:&quot;0&quot; prob:[0.604167, 0.395833]
+                 |        |        |        └─(neg)─ val:&quot;1&quot; prob:[0.0486425, 0.951357]
+                 |        |        └─(neg)─ val:&quot;1&quot; prob:[0.0053866, 0.994613]
+                 |        └─(neg)─ val:&quot;1&quot; prob:[0.131412, 0.868588]
+                 └─(neg)─ &quot;domain_age_days&quot;&gt;=442.5 [s:0.172081 n:128345 np:75857 miss:1] ; val:&quot;0&quot; prob:[0.54348, 0.45652]
+                          ├─(pos)─ &quot;ratio_lowercase&quot;&gt;=0.685 [s:0.0937481 n:75857 np:64050 miss:1] ; val:&quot;0&quot; prob:[0.779823, 0.220177]
+                          |        ├─(pos)─ &quot;entropy_url&quot;&gt;=4.585 [s:0.0379858 n:64050 np:2005 miss:0] ; val:&quot;0&quot; prob:[0.864137, 0.135863]
+                          |        |        ├─(pos)─ val:&quot;1&quot; prob:[0.193017, 0.806983]
+                          |        |        └─(neg)─ val:&quot;0&quot; prob:[0.885825, 0.114175]
+                          |        └─(neg)─ val:&quot;1&quot; prob:[0.322436, 0.677564]
+                          └─(neg)─ val:&quot;1&quot; prob:[0.201913, 0.798087]
+</pre></div></div></div>

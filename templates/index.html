@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Scan URL - PhishGuard{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <!-- Stats Bar -->
+    {% if stats.total > 0 %}
+    <div class="stats-bar">
+        <div class="stat">
+            <span class="stat-number">{{ stats.total }}</span>
+            <span class="stat-label">Total Scans</span>
+        </div>
+        <div class="stat">
+            <span class="stat-number phishing-text">{{ stats.phishing }}</span>
+            <span class="stat-label">Phishing ({{ stats.phishing_pct }}%)</span>
+        </div>
+        <div class="stat">
+            <span class="stat-number legit-text">{{ stats.legitimate }}</span>
+            <span class="stat-label">Legitimate ({{ stats.legitimate_pct }}%)</span>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Scan Section -->
+    <div class="scan-section">
+        <h1>🔍 Scan a URL</h1>
+        <p class="subtitle">Enter a URL to check if it's legitimate or phishing</p>
+
+        <form method="POST" action="/" class="url-form">
+            <div class="input-group">
+                <input
+                    type="text"
+                    name="url"
+                    placeholder="https://example.com/suspicious-page"
+                    value="{{ request.form.get('url', '') }}"
+                    required
+                    autocomplete="off"
+                >
+                <button type="submit">Scan URL</button>
+            </div>
+        </form>
+
+        {% if error %}
+        <div class="alert alert-error">
+            ⚠️ {{ error }}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Results -->
+    {% if result %}
+    <div class="results-section">
+        <h2>📊 Scan Results</h2>
+
+        <div class="url-display">
+            <span class="label">Scanned URL:</span>
+            <span class="url-text">{{ result.url }}</span>
+        </div>
+
+        <!-- Individual Model Predictions -->
+        <div class="models-grid">
+            {% for model_name, pred in result.predictions.items() %}
+            <div class="model-card {{ 'phishing' if pred == 1 else 'legitimate' }}">
+                <div class="model-name">{{ model_name }}</div>
+                <div class="model-result">
+                    {% if pred == 1 %}
+                        🔴 Phishing
+                    {% else %}
+                        🟢 Legitimate
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Final Verdict -->
+        <div class="verdict {{ 'verdict-phishing' if result.final == 1 else 'verdict-legitimate' }}">
+            <div class="verdict-icon">
+                {% if result.final == 1 %}🚨{% else %}✅{% endif %}
+            </div>
+            <div class="verdict-text">
+                <h3>Final Verdict (Majority Vote)</h3>
+                <p class="verdict-label">{{ result.label }}</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

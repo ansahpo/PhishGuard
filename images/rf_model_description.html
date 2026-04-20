@@ -1,0 +1,451 @@
+
+<style>
+
+.tab_block .header {
+    flex-direction: row;
+    display: flex;
+}
+
+.tab_block .header .tab {
+    cursor: pointer;
+    background-color: #F6F5F5;
+    text-decoration: none;
+    text-align: center;
+    padding: 4px 12px;
+    color: black;
+}
+
+.tab_block .header .tab.selected {
+    border-bottom: 2px solid #2F80ED;
+}
+
+.tab_block .header .tab:hover {
+    text-decoration: none;
+    background-color: #DCDCDC;
+}
+
+.tab_block .body .tab_content {
+    display: none;
+    padding: 5px;
+}
+
+.tab_block .body .tab_content.selected {
+    display: block;
+}
+
+.ydf_pre {
+    font-size: medium;
+}
+
+
+
+.variable_importance {
+}
+
+.variable_importance select {
+}
+
+.variable_importance .content {
+  display: none;
+}
+
+.variable_importance .content.selected {
+  display: block;
+}
+
+.ydf_tuning_table {
+  border-collapse: collapse;
+  border: 1px solid lightgray;
+}
+
+.ydf_tuning_table th {
+  background-color: #ededed;
+  font-weight: bold;
+  text-align: left;
+  padding: 3px 4px;
+  border: 1px solid lightgray;
+}
+
+.ydf_tuning_table td {
+  text-align: right;
+  padding: 3px 4px;
+  border: 1px solid lightgray;
+}
+
+.ydf_tuning_table .best {
+  background-color: khaki;
+}
+
+</style>
+
+<script>
+
+function ydfShowTab(block_id, item) {
+    const block = document.getElementById(block_id);
+    
+    
+    console.log("HIDE first of:",block.getElementsByClassName("tab selected"));
+    console.log("HIDE first of:",block.getElementsByClassName("tab_content selected"));
+    
+    block.getElementsByClassName("tab selected")[0].classList.remove("selected");
+    block.getElementsByClassName("tab_content selected")[0].classList.remove("selected");
+    document.getElementById(block_id + "_" + item).classList.add("selected");
+    document.getElementById(block_id + "_body_" + item).classList.add("selected");
+}
+  
+
+function ydfShowVariableImportance(block_id) {
+    const block = document.getElementById(block_id);
+    const item = block.getElementsByTagName("select")[0].value;
+    block.getElementsByClassName("content selected")[0].classList.remove("selected");
+    document.getElementById(block_id + "_body_" + item).classList.add("selected");
+}
+
+</script>
+  <div class="tab_block" id="f2af-a558-bd13-1d34"><div class="header"><a id="f2af-a558-bd13-1d34_model" class="tab selected" onclick="ydfShowTab('f2af-a558-bd13-1d34', 'model')">Model</a><a id="f2af-a558-bd13-1d34_dataspec" class="tab" onclick="ydfShowTab('f2af-a558-bd13-1d34', 'dataspec')">Dataspec</a><a id="f2af-a558-bd13-1d34_training" class="tab" onclick="ydfShowTab('f2af-a558-bd13-1d34', 'training')">Training</a><a id="f2af-a558-bd13-1d34_variable_importance" class="tab" onclick="ydfShowTab('f2af-a558-bd13-1d34', 'variable_importance')">Variable importances</a><a id="f2af-a558-bd13-1d34_structure" class="tab" onclick="ydfShowTab('f2af-a558-bd13-1d34', 'structure')">Structure</a></div><div class="body"><div id="f2af-a558-bd13-1d34_body_model" class="tab_content selected"><b>Name</b> : RANDOM_FOREST<br><b>Task</b> : CLASSIFICATION<br><b>Label</b> : label<br><b>Features (46)</b> : whois_success domain_age_days creation_year url_length domain_length hostname_length path_length tld_length query_length num_digits num_letters num_uppercase num_lowercase num_subdomains num_dots num_hyphen num_at num_percent num_question num_equal num_hash num_ampersand num_underscore num_dollars num_slashes num_params entropy_url entropy_path entropy_domain entropy_query ratio_digits ratio_letters ratio_ uppercase ratio_lowercase contains_verify contains_secure contains_update contains_bank contains_crypto contains_pay contains_obfuscation is_ip_address uses_https has_www unusual_double_slash is_shortened<br><b>Weights</b> : None<br><b>Trained with tuner</b> : No<br><b>Model size</b> : 3046 kB<br></div><div id="f2af-a558-bd13-1d34_body_dataspec" class="tab_content"><pre class="ydf_pre">Number of records: 384000
+Number of columns: 47
+
+Number of columns by type:
+	NUMERICAL: 46 (97.8723%)
+	CATEGORICAL: 1 (2.12766%)
+
+Columns:
+
+NUMERICAL: 46 (97.8723%)
+	1: &quot;whois_success&quot; NUMERICAL mean:0.923964 min:0 max:1 sd:0.265056 dtype:DTYPE_INT64
+	2: &quot;domain_age_days&quot; NUMERICAL mean:4168.87 min:0 max:15092 sd:3901.26 dtype:DTYPE_INT64
+	3: &quot;creation_year&quot; NUMERICAL mean:1508.78 min:0 max:2025 sd:869.827 dtype:DTYPE_INT64
+	4: &quot;url_length&quot; NUMERICAL mean:52.4974 min:12 max:25523 sd:80.5965 dtype:DTYPE_INT64
+	5: &quot;domain_length&quot; NUMERICAL mean:12.6863 min:4 max:71 sd:4.62845 dtype:DTYPE_INT64
+	6: &quot;hostname_length&quot; NUMERICAL mean:19.3928 min:4 max:236 sd:11.8792 dtype:DTYPE_INT64
+	7: &quot;path_length&quot; NUMERICAL mean:18.9383 min:0 max:2864 sd:32.541 dtype:DTYPE_INT64
+	8: &quot;tld_length&quot; NUMERICAL mean:3.01104 min:0 max:16 sd:1.07987 dtype:DTYPE_INT64
+	9: &quot;query_length&quot; NUMERICAL mean:5.88043 min:0 max:4471 sd:40.9362 dtype:DTYPE_INT64
+	10: &quot;num_digits&quot; NUMERICAL mean:3.98383 min:0 max:3413 sd:15.1121 dtype:DTYPE_INT64
+	11: &quot;num_letters&quot; NUMERICAL mean:39.6328 min:4 max:22021 sd:64.787 dtype:DTYPE_INT64
+	12: &quot;num_uppercase&quot; NUMERICAL mean:1.85679 min:0 max:10610 sd:27.8444 dtype:DTYPE_INT64
+	13: &quot;num_lowercase&quot; NUMERICAL mean:37.7607 min:4 max:11411 sd:41.6349 dtype:DTYPE_INT64
+	14: &quot;num_subdomains&quot; NUMERICAL mean:0.745714 min:0 max:42 sd:1.34176 dtype:DTYPE_INT64
+	15: &quot;num_dots&quot; NUMERICAL mean:2.1469 min:1 max:547 sd:4.73688 dtype:DTYPE_INT64
+	16: &quot;num_hyphen&quot; NUMERICAL mean:1.06952 min:0 max:65 sd:1.96632 dtype:DTYPE_INT64
+	17: &quot;num_at&quot; NUMERICAL mean:0.00809635 min:0 max:32 sd:0.117901 dtype:DTYPE_INT64
+	18: &quot;num_percent&quot; NUMERICAL mean:0.185443 min:0 max:417 sd:3.18435 dtype:DTYPE_INT64
+	19: &quot;num_question&quot; NUMERICAL mean:0.087401 min:0 max:17 sd:0.305491 dtype:DTYPE_INT64
+	20: &quot;num_equal&quot; NUMERICAL mean:0.191156 min:0 max:80 sd:0.941702 dtype:DTYPE_INT64
+	21: &quot;num_hash&quot; NUMERICAL mean:0.00721354 min:0 max:24 sd:0.0932908 dtype:DTYPE_INT64
+	22: &quot;num_ampersand&quot; NUMERICAL mean:0.0984922 min:0 max:80 sd:0.698693 dtype:DTYPE_INT64
+	23: &quot;num_underscore&quot; NUMERICAL mean:0.138297 min:0 max:99 sd:0.920982 dtype:DTYPE_INT64
+	24: &quot;num_dollars&quot; NUMERICAL mean:0.0028724 min:0 max:12 sd:0.0988453 dtype:DTYPE_INT64
+	25: &quot;num_slashes&quot; NUMERICAL mean:3.85752 min:2 max:334 sd:3.31016 dtype:DTYPE_INT64
+	26: &quot;num_params&quot; NUMERICAL mean:0.17737 min:0 max:81 sd:0.849591 dtype:DTYPE_INT64
+	27: &quot;entropy_url&quot; NUMERICAL mean:4.16879 min:0.63 max:6.03 sd:0.387615 dtype:DTYPE_FLOAT64
+	28: &quot;entropy_path&quot; NUMERICAL mean:2.51727 min:0 max:5.97 sd:1.61904 dtype:DTYPE_FLOAT64
+	29: &quot;entropy_domain&quot; NUMERICAL mean:3.14566 min:0.72 max:4.88 sd:0.377649 dtype:DTYPE_FLOAT64
+	30: &quot;entropy_query&quot; NUMERICAL mean:0.32637 min:0 max:6.02 sd:1.11346 dtype:DTYPE_FLOAT64
+	31: &quot;ratio_digits&quot; NUMERICAL mean:0.0492407 min:0 max:0.81 sd:0.0915105 dtype:DTYPE_FLOAT64
+	32: &quot;ratio_letters&quot; NUMERICAL mean:0.763472 min:0.04 max:0.96 sd:0.0913467 dtype:DTYPE_FLOAT64
+	33: &quot;ratio_ uppercase&quot; NUMERICAL mean:0.0148564 min:0 max:0.76 sd:0.0497909 dtype:DTYPE_FLOAT64
+	34: &quot;ratio_lowercase&quot; NUMERICAL mean:0.748403 min:0.02 max:0.96 sd:0.105717 dtype:DTYPE_FLOAT64
+	35: &quot;contains_verify&quot; NUMERICAL mean:0.0102474 min:0 max:1 sd:0.100709 dtype:DTYPE_INT64
+	36: &quot;contains_secure&quot; NUMERICAL mean:0.0137083 min:0 max:1 sd:0.116277 dtype:DTYPE_INT64
+	37: &quot;contains_update&quot; NUMERICAL mean:0.00583594 min:0 max:1 sd:0.0761701 dtype:DTYPE_INT64
+	38: &quot;contains_bank&quot; NUMERICAL mean:0.0620208 min:0 max:1 sd:0.241193 dtype:DTYPE_INT64
+	39: &quot;contains_crypto&quot; NUMERICAL mean:0.0185937 min:0 max:1 sd:0.135085 dtype:DTYPE_INT64
+	40: &quot;contains_pay&quot; NUMERICAL mean:0.0144844 min:0 max:1 sd:0.119476 dtype:DTYPE_INT64
+	41: &quot;contains_obfuscation&quot; NUMERICAL mean:0.000510417 min:0 max:1 sd:0.0225866 dtype:DTYPE_INT64
+	42: &quot;is_ip_address&quot; NUMERICAL mean:0.0137266 min:0 max:1 sd:0.116354 dtype:DTYPE_INT64
+	43: &quot;uses_https&quot; NUMERICAL mean:0.855927 min:0 max:1 sd:0.351164 dtype:DTYPE_INT64
+	44: &quot;has_www&quot; NUMERICAL mean:0.307711 min:0 max:1 sd:0.461546 dtype:DTYPE_INT64
+	45: &quot;unusual_double_slash&quot; NUMERICAL mean:0.00429688 min:0 max:1 sd:0.0654096 dtype:DTYPE_INT64
+	46: &quot;is_shortened&quot; NUMERICAL mean:0.0174922 min:0 max:1 sd:0.131096 dtype:DTYPE_INT64
+
+CATEGORICAL: 1 (2.12766%)
+	0: &quot;label&quot; CATEGORICAL has-dict vocab-size:3 zero-ood-items most-frequent:&quot;0&quot; 192163 (50.0424%) dtype:DTYPE_INT64
+
+Terminology:
+	nas: Number of non-available (i.e. missing) values.
+	ood: Out of dictionary.
+	manually-defined: Attribute whose type is manually defined by the user, i.e., the type was not automatically inferred.
+	tokenized: The attribute value is obtained through tokenization.
+	has-dict: The attribute is attached to a string dictionary e.g. a categorical attribute stored as a string.
+	vocab-size: Number of unique values.
+</pre></div><div id="f2af-a558-bd13-1d34_body_training" class="tab_content"><p>The following evaluation is computed on the validation or out-of-bag dataset.</p><pre class="ydf_pre">Number of predictions (without weights): 384000
+Number of predictions (with weights): 384000
+Task: CLASSIFICATION
+Label: label
+
+Accuracy: 0.922466  CI95[W][0.921753 0.923175]
+LogLoss: : 0.249311
+ErrorRate: : 0.0775338
+
+Default Accuracy: : 0.500425
+Default LogLoss: : 0.693147
+Default ErrorRate: : 0.499575
+
+Confusion Table:
+truth\prediction
+            0       1
+    0  179294   12869
+    1   16904  174933
+Total: 384000
+
+</pre><div style='display: grid; gap: 0px; grid-auto-columns: min-content;'><div style='grid-row:1 / span 1; grid-column:1 / span 1;'><script src='https://www.gstatic.com/external_hosted/plotly/plotly.min.js'></script>
+<div id="chart_f2af_a558_bd13_1d34self_eval_item0" style="display: inline-block;" ></div>
+<script>
+  Plotly.newPlot(
+    'chart_f2af_a558_bd13_1d34self_eval_item0',
+    [{
+x: [1,11,21,31,41,51,61,71,81,91,101,111,121,131,141,151,161,171,181,191,200],
+y: [0.841619,0.88046,0.901654,0.905802,0.913388,0.914458,0.916159,0.919276,0.919825,0.919794,0.919404,0.920997,0.92151,0.922529,0.921672,0.921656,0.92144,0.921828,0.92207,0.922089,0.922466],
+type: 'scatter',
+mode: 'lines',
+line: {
+  dash: 'solid',
+  width: 1
+},
+},
+],
+    {
+      width: 600,
+      height: 400,
+      title: '',
+      showlegend: true,
+      xaxis: {
+        ticks: 'outside',
+        showgrid: true,
+        zeroline: false,
+        showline: true,
+        title: 'num trees',
+        },
+      font: {
+        size: 10,
+        },
+      yaxis: {
+        ticks: 'outside',
+        showgrid: true,
+        zeroline: false,
+        showline: true,
+        title: 'accuracy',
+        },
+      margin: {
+        l: 50,
+        r: 50,
+        b: 50,
+        t: 50,
+      },
+    },
+    {
+      modeBarButtonsToRemove: ['sendDataToCloud'],
+      displaylogo: false,displayModeBar: false,
+    }
+  );
+</script>
+</div></div></div><div id="f2af-a558-bd13-1d34_body_variable_importance" class="tab_content"><p><a target="_blank" href="https://ydf.readthedocs.io/en/latest/cli_user_manual#variable-importances">Variable importances</a> measure the importance of an input feature for a model.</p><div id="f2af-a558-bd13-1d34_vi" class="variable_importance"><select onchange="ydfShowVariableImportance('f2af-a558-bd13-1d34_vi')"><option value="INV_MEAN_MIN_DEPTH">INV_MEAN_MIN_DEPTH</option><option value="NUM_AS_ROOT">NUM_AS_ROOT</option><option value="NUM_NODES">NUM_NODES</option><option value="SUM_SCORE">SUM_SCORE</option></select><div id="f2af-a558-bd13-1d34_vi_body_INV_MEAN_MIN_DEPTH" class="content selected"><pre class="ydf_pre">    1.          &quot;has_www&quot;  0.241948 ################
+    2.      &quot;path_length&quot;  0.216577 ##########
+    3.  &quot;domain_age_days&quot;  0.215248 ##########
+    4.     &quot;entropy_path&quot;  0.210107 #########
+    5.  &quot;hostname_length&quot;  0.207173 ########
+    6.      &quot;num_slashes&quot;  0.194310 #####
+    7.       &quot;uses_https&quot;  0.191566 #####
+    8.     &quot;ratio_digits&quot;  0.189891 ####
+    9.       &quot;num_digits&quot;  0.187684 ####
+   10.  &quot;ratio_lowercase&quot;  0.184989 ###
+   11.    &quot;creation_year&quot;  0.184920 ###
+   12.   &quot;num_subdomains&quot;  0.183019 ###
+   13.      &quot;entropy_url&quot;  0.181079 ##
+   14.      &quot;num_letters&quot;  0.176658 #
+   15.    &quot;num_lowercase&quot;  0.175980 #
+   16.       &quot;url_length&quot;  0.175919 #
+   17.    &quot;ratio_letters&quot;  0.175399 #
+   18.    &quot;domain_length&quot;  0.173222 #
+   19.         &quot;num_dots&quot;  0.173046 #
+   20.   &quot;entropy_domain&quot;  0.171748 
+   21.       &quot;tld_length&quot;  0.171355 
+   22. &quot;ratio_ uppercase&quot;  0.170934 
+   23.       &quot;num_hyphen&quot;  0.170889 
+   24.    &quot;num_uppercase&quot;  0.170246 
+   25.     &quot;is_shortened&quot;  0.169242 
+   26.      &quot;num_percent&quot;  0.169212 
+   27.    &quot;is_ip_address&quot;  0.168832 
+   28.    &quot;whois_success&quot;  0.168576 
+   29.    &quot;contains_bank&quot;  0.168295 
+   30.    &quot;entropy_query&quot;  0.168083 
+   31.     &quot;query_length&quot;  0.168065 
+   32.        &quot;num_equal&quot;  0.167924 
+   33.       &quot;num_params&quot;  0.167782 
+   34.   &quot;num_underscore&quot;  0.167476 
+   35.     &quot;num_question&quot;  0.167454 
+   36.           &quot;num_at&quot;  0.167425 
+   37.  &quot;contains_verify&quot;  0.167418 
+   38.  &quot;contains_secure&quot;  0.167399 
+   39.     &quot;contains_pay&quot;  0.167389 
+   40.  &quot;contains_crypto&quot;  0.167381 
+   41.    &quot;num_ampersand&quot;  0.167362 
+</pre></div><div id="f2af-a558-bd13-1d34_vi_body_NUM_AS_ROOT" class="content"><pre class="ydf_pre">    1.          &quot;has_www&quot; 33.000000 ################
+    2.      &quot;path_length&quot; 27.000000 #############
+    3.     &quot;entropy_path&quot; 27.000000 #############
+    4.  &quot;domain_age_days&quot; 21.000000 ##########
+    5.      &quot;num_slashes&quot; 17.000000 ########
+    6.     &quot;ratio_digits&quot; 13.000000 ######
+    7.       &quot;uses_https&quot; 12.000000 #####
+    8.  &quot;hostname_length&quot;  9.000000 ####
+    9.    &quot;creation_year&quot;  8.000000 ###
+   10.  &quot;ratio_lowercase&quot;  8.000000 ###
+   11.       &quot;num_digits&quot;  7.000000 ###
+   12.    &quot;ratio_letters&quot;  5.000000 ##
+   13.    &quot;num_lowercase&quot;  3.000000 #
+   14.      &quot;entropy_url&quot;  2.000000 
+   15.     &quot;is_shortened&quot;  2.000000 
+   16.       &quot;url_length&quot;  1.000000 
+   17.       &quot;tld_length&quot;  1.000000 
+   18.      &quot;num_letters&quot;  1.000000 
+   19.   &quot;num_subdomains&quot;  1.000000 
+   20. &quot;ratio_ uppercase&quot;  1.000000 
+   21.    &quot;is_ip_address&quot;  1.000000 
+</pre></div><div id="f2af-a558-bd13-1d34_vi_body_NUM_NODES" class="content"><pre class="ydf_pre">    1.  &quot;hostname_length&quot; 557.000000 ################
+    2.  &quot;domain_age_days&quot; 540.000000 ###############
+    3.          &quot;has_www&quot; 466.000000 #############
+    4.      &quot;path_length&quot; 382.000000 ##########
+    5.     &quot;entropy_path&quot; 308.000000 ########
+    6.   &quot;num_subdomains&quot; 299.000000 ########
+    7.    &quot;creation_year&quot; 287.000000 ########
+    8.      &quot;num_slashes&quot; 270.000000 #######
+    9.      &quot;entropy_url&quot; 248.000000 #######
+   10.       &quot;num_digits&quot; 220.000000 ######
+   11.       &quot;uses_https&quot; 216.000000 ######
+   12.     &quot;ratio_digits&quot; 213.000000 ######
+   13.    &quot;domain_length&quot; 195.000000 #####
+   14.       &quot;url_length&quot; 188.000000 #####
+   15.  &quot;ratio_lowercase&quot; 176.000000 #####
+   16.   &quot;entropy_domain&quot; 171.000000 ####
+   17.      &quot;num_letters&quot; 164.000000 ####
+   18.    &quot;num_lowercase&quot; 145.000000 ####
+   19.         &quot;num_dots&quot; 134.000000 ###
+   20.       &quot;tld_length&quot; 127.000000 ###
+   21.    &quot;ratio_letters&quot; 118.000000 ###
+   22.       &quot;num_hyphen&quot; 106.000000 ###
+   23. &quot;ratio_ uppercase&quot; 86.000000 ##
+   24.    &quot;num_uppercase&quot; 80.000000 ##
+   25.      &quot;num_percent&quot; 44.000000 #
+   26.     &quot;query_length&quot; 37.000000 #
+   27.    &quot;whois_success&quot; 36.000000 #
+   28.    &quot;entropy_query&quot; 36.000000 #
+   29.    &quot;contains_bank&quot; 32.000000 
+   30.    &quot;is_ip_address&quot; 31.000000 
+   31.     &quot;is_shortened&quot; 30.000000 
+   32.        &quot;num_equal&quot; 22.000000 
+   33.       &quot;num_params&quot; 21.000000 
+   34.   &quot;num_underscore&quot; 11.000000 
+   35.           &quot;num_at&quot;  5.000000 
+   36.     &quot;num_question&quot;  5.000000 
+   37.  &quot;contains_crypto&quot;  3.000000 
+   38.  &quot;contains_secure&quot;  2.000000 
+   39.    &quot;num_ampersand&quot;  1.000000 
+   40.  &quot;contains_verify&quot;  1.000000 
+   41.     &quot;contains_pay&quot;  1.000000 
+</pre></div><div id="f2af-a558-bd13-1d34_vi_body_SUM_SCORE" class="content"><pre class="ydf_pre">    1.          &quot;has_www&quot; 5535298.876427 ################
+    2.      &quot;path_length&quot; 3867400.642343 ###########
+    3.     &quot;entropy_path&quot; 3208471.851427 #########
+    4.  &quot;domain_age_days&quot; 2778393.634331 ########
+    5.  &quot;hostname_length&quot; 2222353.224380 ######
+    6.     &quot;ratio_digits&quot; 1385464.065829 ####
+    7.   &quot;num_subdomains&quot; 1347511.577557 ###
+    8.       &quot;num_digits&quot; 1229744.048769 ###
+    9.      &quot;num_slashes&quot; 1180107.086969 ###
+   10.       &quot;uses_https&quot; 1153637.942558 ###
+   11.  &quot;ratio_lowercase&quot; 1143282.377514 ###
+   12.      &quot;entropy_url&quot; 611573.865246 #
+   13.    &quot;creation_year&quot; 610580.945160 #
+   14.         &quot;num_dots&quot; 606194.981255 #
+   15.    &quot;num_uppercase&quot; 313187.454037 
+   16. &quot;ratio_ uppercase&quot; 293440.862255 
+   17.    &quot;num_lowercase&quot; 241181.953393 
+   18.      &quot;num_letters&quot; 230917.152101 
+   19.       &quot;url_length&quot; 228024.675126 
+   20.    &quot;ratio_letters&quot; 208354.347131 
+   21.    &quot;domain_length&quot; 184059.616864 
+   22.       &quot;tld_length&quot; 110185.235909 
+   23.   &quot;entropy_domain&quot; 96444.497036 
+   24.       &quot;num_hyphen&quot; 55151.438367 
+   25.     &quot;is_shortened&quot; 43093.882663 
+   26.      &quot;num_percent&quot; 32997.424428 
+   27.    &quot;contains_bank&quot; 32859.993868 
+   28.    &quot;whois_success&quot; 29918.525977 
+   29.    &quot;is_ip_address&quot; 23895.537223 
+   30.     &quot;query_length&quot; 15623.177505 
+   31.    &quot;entropy_query&quot; 14871.835012 
+   32.        &quot;num_equal&quot; 5840.868160 
+   33.     &quot;num_question&quot; 3908.283737 
+   34.           &quot;num_at&quot; 3512.609429 
+   35.       &quot;num_params&quot; 2273.995705 
+   36.   &quot;num_underscore&quot; 869.997908 
+   37.     &quot;contains_pay&quot; 226.316087 
+   38.  &quot;contains_crypto&quot; 111.418141 
+   39.  &quot;contains_secure&quot; 20.140021 
+   40.  &quot;contains_verify&quot; 18.736037 
+   41.    &quot;num_ampersand&quot;  8.657995 
+</pre></div></div><p>Those variable importances are computed during training. More, and possibly more informative, variable importances are available when analyzing a model on a test dataset.</p></div><div id="f2af-a558-bd13-1d34_body_structure" class="tab_content"><b>Num trees</b> : 200<br><p>Only printing the first tree.</p><pre class="ydf_pre">Tree #0:
+    &quot;entropy_path&quot;&gt;=1.36 [s:0.14182 n:384000 np:282770 miss:1] ; val:&quot;0&quot; prob:[0.500003, 0.499997]
+        ├─(pos)─ &quot;hostname_length&quot;&gt;=25.5 [s:0.0712993 n:282770 np:29111 miss:0] ; val:&quot;0&quot; prob:[0.649811, 0.350189]
+        |        ├─(pos)─ &quot;creation_year&quot;&gt;=1990.5 [s:0.0374759 n:29111 np:15599 miss:0] ; val:&quot;1&quot; prob:[0.116073, 0.883927]
+        |        |        ├─(pos)─ &quot;uses_https&quot;&gt;=0.5 [s:0.0440644 n:15599 np:12213 miss:1] ; val:&quot;1&quot; prob:[0.192448, 0.807552]
+        |        |        |        ├─(pos)─ &quot;ratio_digits&quot;&gt;=0.005 [s:0.113473 n:12213 np:7188 miss:1] ; val:&quot;1&quot; prob:[0.243265, 0.756735]
+        |        |        |        |        ├─(pos)─ val:&quot;1&quot; prob:[0.0747078, 0.925292]
+        |        |        |        |        └─(neg)─ val:&quot;1&quot; prob:[0.484378, 0.515622]
+        |        |        |        └─(neg)─ &quot;ratio_digits&quot;&gt;=0.015 [s:0.00977546 n:3386 np:2521 miss:1] ; val:&quot;1&quot; prob:[0.00915535, 0.990845]
+        |        |        |                 ├─(pos)─ val:&quot;1&quot; prob:[0.000793336, 0.999207]
+        |        |        |                 └─(neg)─ val:&quot;1&quot; prob:[0.033526, 0.966474]
+        |        |        └─(neg)─ &quot;has_www&quot;&gt;=0.5 [s:0.0315821 n:13512 np:1409 miss:0] ; val:&quot;1&quot; prob:[0.0279011, 0.972099]
+        |        |                 ├─(pos)─ &quot;entropy_domain&quot;&gt;=3.345 [s:0.167105 n:1409 np:632 miss:0] ; val:&quot;1&quot; prob:[0.193045, 0.806955]
+        |        |                 |        ├─(pos)─ val:&quot;1&quot; prob:[0.424051, 0.575949]
+        |        |                 |        └─(neg)─ val:&quot;1&quot; prob:[0.00514801, 0.994852]
+        |        |                 └─(neg)─ &quot;entropy_domain&quot;&gt;=3.345 [s:0.00702299 n:12103 np:2797 miss:0] ; val:&quot;1&quot; prob:[0.00867553, 0.991324]
+        |        |                          ├─(pos)─ val:&quot;1&quot; prob:[0.0311048, 0.968895]
+        |        |                          └─(neg)─ val:&quot;1&quot; prob:[0.00193424, 0.998066]
+        |        └─(neg)─ &quot;ratio_digits&quot;&gt;=0.025 [s:0.100657 n:253659 np:79989 miss:1] ; val:&quot;0&quot; prob:[0.711065, 0.288935]
+        |                 ├─(pos)─ &quot;has_www&quot;&gt;=0.5 [s:0.172432 n:79989 np:20824 miss:0] ; val:&quot;1&quot; prob:[0.406043, 0.593957]
+        |                 |        ├─(pos)─ &quot;domain_age_days&quot;&gt;=2742 [s:0.040601 n:20824 np:15526 miss:1] ; val:&quot;0&quot; prob:[0.879418, 0.120582]
+        |                 |        |        ├─(pos)─ val:&quot;0&quot; prob:[0.937653, 0.062347]
+        |                 |        |        └─(neg)─ val:&quot;0&quot; prob:[0.708758, 0.291242]
+        |                 |        └─(neg)─ &quot;is_ip_address&quot;&gt;=0.5 [s:0.0219821 n:59165 np:4539 miss:0] ; val:&quot;1&quot; prob:[0.239432, 0.760568]
+        |                 |                 ├─(pos)─ val:&quot;1&quot; prob:[0, 1]
+        |                 |                 └─(neg)─ val:&quot;1&quot; prob:[0.259327, 0.740673]
+        |                 └─(neg)─ &quot;num_uppercase&quot;&gt;=0.5 [s:0.0344602 n:173670 np:15111 miss:1] ; val:&quot;0&quot; prob:[0.851552, 0.148448]
+        |                          ├─(pos)─ &quot;hostname_length&quot;&gt;=8.5 [s:0.151796 n:15111 np:10998 miss:1] ; val:&quot;1&quot; prob:[0.497452, 0.502548]
+        |                          |        ├─(pos)─ val:&quot;0&quot; prob:[0.655392, 0.344608]
+        |                          |        └─(neg)─ val:&quot;1&quot; prob:[0.0751276, 0.924872]
+        |                          └─(neg)─ &quot;whois_success&quot;&gt;=0.5 [s:0.0137129 n:158559 np:151771 miss:1] ; val:&quot;0&quot; prob:[0.885298, 0.114702]
+        |                                   ├─(pos)─ val:&quot;0&quot; prob:[0.898933, 0.101067]
+        |                                   └─(neg)─ val:&quot;0&quot; prob:[0.580436, 0.419564]
+        └─(neg)─ &quot;hostname_length&quot;&gt;=19.5 [s:0.0523147 n:101230 np:64049 miss:0] ; val:&quot;1&quot; prob:[0.0815371, 0.918463]
+                 ├─(pos)─ &quot;hostname_length&quot;&gt;=23.5 [s:0.00780399 n:64049 np:48832 miss:0] ; val:&quot;1&quot; prob:[0.0144889, 0.985511]
+                 |        ├─(pos)─ &quot;entropy_domain&quot;&gt;=3.285 [s:0.00426535 n:48832 np:18857 miss:0] ; val:&quot;1&quot; prob:[0.00522199, 0.994778]
+                 |        |        ├─(pos)─ &quot;domain_length&quot;&gt;=17.5 [s:0.00858932 n:18857 np:8518 miss:0] ; val:&quot;1&quot; prob:[0.0131516, 0.986848]
+                 |        |        |        ├─(pos)─ val:&quot;1&quot; prob:[0.0281756, 0.971824]
+                 |        |        |        └─(neg)─ val:&quot;1&quot; prob:[0.000773769, 0.999226]
+                 |        |        └─(neg)─ &quot;hostname_length&quot;&gt;=28.5 [s:0.000129627 n:29975 np:19522 miss:0] ; val:&quot;1&quot; prob:[0.000233528, 0.999766]
+                 |        |                 ├─(pos)─ val:&quot;1&quot; prob:[5.12243e-05, 0.999949]
+                 |        |                 └─(neg)─ val:&quot;1&quot; prob:[0.000573998, 0.999426]
+                 |        └─(neg)─ &quot;domain_age_days&quot;&gt;=7220.5 [s:0.0175635 n:15217 np:735 miss:0] ; val:&quot;1&quot; prob:[0.0442269, 0.955773]
+                 |                 ├─(pos)─ &quot;path_length&quot;&gt;=0.5 [s:0.0945873 n:735 np:442 miss:1] ; val:&quot;1&quot; prob:[0.285714, 0.714286]
+                 |                 |        ├─(pos)─ val:&quot;1&quot; prob:[0.434389, 0.565611]
+                 |                 |        └─(neg)─ val:&quot;1&quot; prob:[0.0614334, 0.938567]
+                 |                 └─(neg)─ &quot;has_www&quot;&gt;=0.5 [s:0.015371 n:14482 np:1045 miss:0] ; val:&quot;1&quot; prob:[0.0319707, 0.968029]
+                 |                          ├─(pos)─ val:&quot;1&quot; prob:[0.182775, 0.817225]
+                 |                          └─(neg)─ val:&quot;1&quot; prob:[0.0202426, 0.979757]
+                 └─(neg)─ &quot;path_length&quot;&gt;=0.5 [s:0.0812744 n:37181 np:24005 miss:1] ; val:&quot;1&quot; prob:[0.197036, 0.802964]
+                          ├─(pos)─ &quot;domain_age_days&quot;&gt;=491.5 [s:0.168073 n:24005 np:8658 miss:1] ; val:&quot;1&quot; prob:[0.299313, 0.700687]
+                          |        ├─(pos)─ &quot;entropy_url&quot;&gt;=3.985 [s:0.101881 n:8658 np:1511 miss:1] ; val:&quot;0&quot; prob:[0.65119, 0.34881]
+                          |        |        ├─(pos)─ val:&quot;1&quot; prob:[0.178028, 0.821972]
+                          |        |        └─(neg)─ val:&quot;0&quot; prob:[0.751224, 0.248776]
+                          |        └─(neg)─ &quot;num_subdomains&quot;&gt;=0.5 [s:0.00451857 n:15347 np:5968 miss:1] ; val:&quot;1&quot; prob:[0.100801, 0.899199]
+                          |                 ├─(pos)─ val:&quot;1&quot; prob:[0.0658512, 0.934149]
+                          |                 └─(neg)─ val:&quot;1&quot; prob:[0.123041, 0.876959]
+                          └─(neg)─ &quot;creation_year&quot;&gt;=993 [s:0.00483872 n:13176 np:5982 miss:1] ; val:&quot;1&quot; prob:[0.0107013, 0.989299]
+                                   ├─(pos)─ &quot;creation_year&quot;&gt;=2019.5 [s:0.0214193 n:5982 np:4024 miss:0] ; val:&quot;1&quot; prob:[0.0212304, 0.97877]
+                                   |        ├─(pos)─ val:&quot;1&quot; prob:[0.000745527, 0.999254]
+                                   |        └─(neg)─ val:&quot;1&quot; prob:[0.0633299, 0.93667]
+                                   └─(neg)─ &quot;num_letters&quot;&gt;=35 [s:0.00218401 n:7194 np:5 miss:1] ; val:&quot;1&quot; prob:[0.00194607, 0.998054]
+                                            ├─(pos)─ val:&quot;0&quot; prob:[0.6, 0.4]
+                                            └─(neg)─ val:&quot;1&quot; prob:[0.00153012, 0.99847]
+</pre></div></div></div>

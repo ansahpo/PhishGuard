@@ -1,0 +1,10 @@
+__pycache__/
+.ipynb_checkpoints/
+*.db
+predictor1.py
+shorteners.txt
+env
+fix.py
+test.py
+datasets/
+Untitled.ipynb
